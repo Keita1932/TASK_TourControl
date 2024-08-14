@@ -1,22 +1,22 @@
-function tourlist() {
+function addinformation3() {
   // 読み込みたいプロジェクトの名前
   const project_id = "m2m-core";
   
   // 実行するクエリ
-  const query_execute = "SELECT id, company_id, title FROM `m2m_cleaning_prod.photo_tour`"; // クエリの最後に引用符を追加
+  const query_execute = "SELECT id, company_id, name FROM `m2m_users_prod.user`"; // クエリの最後に引用符を追加
   
   // 実行するクエリの確認
   Logger.log(query_execute);
   
   // 出力先シート名
-  const ss = SpreadsheetApp.openById("1ECLNE2D8AptKFWZfu8RSSMYMo5mSVb-WoFqdek7qKls");
-  const output_sheet = ss.getSheetByName("tourlist");
+  const ss = SpreadsheetApp.openById("1ExSiRfy4df9yJafRvrMRdKFPw8vmUUzvJlpdSQHtdrQ");
+  const output_sheet = ss.getSheetByName("addinformation3");
   
   // シートの1行目を固定
   output_sheet.setFrozenRows(1);
   
   // ヘッダーを設定
-  const headers = [["id", "company_id", "title"]];
+  const headers = [["id", "company_id", "name"]];
   output_sheet.getRange(1, 1, 1, headers[0].length).setValues(headers);
   
   // BigQueryにクエリを実行
@@ -49,4 +49,3 @@ function tourlist() {
     Logger.log("No data returned or the job is not complete.");
   }
 }
-

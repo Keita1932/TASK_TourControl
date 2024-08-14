@@ -1,7 +1,7 @@
 function makingTour() {
   let lock = LockService.getScriptLock();
   try {
-    if (lock.tryLock(3000)) {
+    if (lock.tryLock(10000)) {
       const sheetId = "1ExSiRfy4df9yJafRvrMRdKFPw8vmUUzvJlpdSQHtdrQ";
       const ss = SpreadsheetApp.openById(sheetId);
       const operationSheet = ss.getSheetByName("ツアー作成用");
@@ -133,27 +133,27 @@ function makingTour() {
   } catch (e) {
     Logger.log('エラーが発生しました: ' + e.message);
   } finally {
-    setupTrigger();
+    // setupTrigger();
   }
 }
 
-function setupTrigger() {
-  deleteExistingTriggers();
+// function setupTrigger() {
+//   deleteExistingTriggers();
 
-  ScriptApp.newTrigger('makingTour')
-    .timeBased()
-    .after(1 * 60 * 1000)
-    .create();
-}
+//   ScriptApp.newTrigger('makingTour')
+//     .timeBased()
+//     .after(1 * 60 * 1000)
+//     .create();
+// }
 
-function deleteExistingTriggers() {
-  var triggers = ScriptApp.getProjectTriggers();
-  for (var i = 0; i < triggers.length; i++) {
-    if (triggers[i].getHandlerFunction() === 'makingTour') {
-      ScriptApp.deleteTrigger(triggers[i]);
-    }
-  }
-}
+// function deleteExistingTriggers() {
+//   var triggers = ScriptApp.getProjectTriggers();
+//   for (var i = 0; i < triggers.length; i++) {
+//     if (triggers[i].getHandlerFunction() === 'makingTour') {
+//       ScriptApp.deleteTrigger(triggers[i]);
+//     }
+//   }
+// }
 
 function convertDate(dateString) {
   if (!dateString) {
