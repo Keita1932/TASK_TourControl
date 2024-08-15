@@ -254,7 +254,6 @@ function sendToSlack4(message) {
     "method": "post",
     "contentType": "application/json",
     "payload": payload,
-    "muteHttpExceptions": true // これによりエラー時もレスポンスが取得できます
   };
 
   let response = UrlFetchApp.fetch(webhookUrl, options);
