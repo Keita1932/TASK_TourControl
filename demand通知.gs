@@ -246,18 +246,21 @@ function sendReportToSlack() {
 }
 
 function sendToSlack4(message) {
-  let webhookUrl = "https://hooks.slack.com/services/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"; // あなたのSlackのWebhook URLに置き換えてください
+  let webhookUrl = "https://hooks.slack.com/services/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"; // あなたのSlackのWebhook URLに置き換えてください
 
   let payload = JSON.stringify(message);
  
   let options = {
     "method": "post",
     "contentType": "application/json",
-    "payload": payload
+    "payload": payload,
+    "muteHttpExceptions": true // これによりエラー時もレスポンスが取得できます
   };
 
-  UrlFetchApp.fetch(webhookUrl, options);
+  let response = UrlFetchApp.fetch(webhookUrl, options);
+  Logger.log("Slack API Response: " + response.getContentText()); // レスポンスをログに出力
 }
+
 
 function changeError() {
   const sheetId = "1ExSiRfy4df9yJafRvrMRdKFPw8vmUUzvJlpdSQHtdrQ";
