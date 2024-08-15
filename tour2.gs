@@ -1,18 +1,22 @@
 function reload() {
+  // LockServiceを使用してロックを取得
+  var lock = LockService.getScriptLock();
+  
   try {
+    // ロックを取得できるまで待機（最大30秒）
+    lock.waitLock(30000);
+    
     // 必要な関数を実行
     get_tour();
     extractData3();
   } catch (e) {
     Logger.log('エラーが発生しました: ' + e.message);
   } finally {
-    // 既存の 'reload' トリガーを削除
-    deleteReloadTriggers();
-
-    // トリガーを設定
-    setupReloadTrigger();
+    // 最後にロックを解放
+    lock.releaseLock();
   }
 }
+
 
 function deleteReloadTriggers() {
   const triggers = ScriptApp.getProjectTriggers();
@@ -37,7 +41,7 @@ function get_tour() {
   const query_execute = `
     WITH filtered_data AS (
       SELECT cleaning_id, listing_id, room_name_common_area_name, status, status_number, work_date,
-            work_start_time, photo_tour_id, work_name, worker_name, submission_id, work_created_time,
+            work_start_time, photo_tour_id, work_name, worker_name, submission_id, work_cleated_time,
             self_agency, attribute, prefecture
         FROM \`m2m-core.su_wo.wo_cleaning_tour\`
       WHERE work_date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 4 MONTH) AND CURRENT_DATE("Asia/Tokyo")
@@ -52,7 +56,7 @@ function get_tour() {
     ),
     today_data AS (
       SELECT cleaning_id, listing_id, room_name_common_area_name, status, status_number, work_date,
-            work_start_time, photo_tour_id, work_name, worker_name, submission_id, work_created_time,
+            work_start_time, photo_tour_id, work_name, worker_name, submission_id, work_cleated_time,
             self_agency, attribute, prefecture
         FROM \`m2m-core.su_wo.wo_cleaning_tour\`
       WHERE work_date = CURRENT_DATE("Asia/Tokyo")
@@ -80,7 +84,7 @@ function get_tour() {
   output_sheet.setFrozenRows(1);
  
   const headers = [["cleaning_id", "listing_id", "room_name_common_area_name", "status", "status_number", "work_date",
-                    "work_start_time", "photo_tour_id", "work_name", "worker_name", "submission_id", "work_created_time",
+                    "work_start_time", "photo_tour_id", "work_name", "worker_name", "submission_id", "work_cleated_time",
                     "self_agency", "attribute", "prefecture"]];
   output_sheet.getRange(1, 1, 1, headers[0].length).setValues(headers);
  
@@ -122,11 +126,11 @@ function groupAndAssignNumbers(filteredRows) {
     grouped[submission_id].push(row);
   });
 
-  // 各グループ内でwork_created_timeの早い順に番号を振る
+  // 各グループ内でwork_cleated_timeの早い順に番号を振る
   const result = [];
   for (const submission_id in grouped) {
     const group = grouped[submission_id];
-    group.sort((a, b) => new Date(a[11]) - new Date(b[11])); // work_created_timeでソート、インデックスが11であると仮定
+    group.sort((a, b) => new Date(a[11]) - new Date(b[11])); // work_cleated_timeでソート、インデックスが11であると仮定
 
     // グループ内の各行に番号を振る
     group.forEach((row, index) => {
