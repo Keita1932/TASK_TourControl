@@ -6,7 +6,7 @@ function extractTodayData() {
   const targetSpreadsheetId = '1ExSiRfy4df9yJafRvrMRdKFPw8vmUUzvJlpdSQHtdrQ';
   const targetSheetName = 'troubleform';
   
-  // 今日の日付を取得（日本時間）
+  // 今日の日付を取得
   const today = new Date();
   const todayString = Utilities.formatDate(today, 'Asia/Tokyo', 'yyyy-MM-dd');
 
