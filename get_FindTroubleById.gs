@@ -85,3 +85,12 @@ function findTroubleById() {
 
   Logger.log('全てのAPIリクエスト結果をシートに出力しました。');
 }
+
+function clearTrouble() {
+  const ss = SpreadsheetApp.openById("1ExSiRfy4df9yJafRvrMRdKFPw8vmUUzvJlpdSQHtdrQ");
+  const cleaningTroubleInfoSheet = ss.getSheetByName("cleaningTroubleInfo");
+  
+  // シートのすべての内容をクリア
+  cleaningTroubleInfoSheet.clearContents();
+}
+
