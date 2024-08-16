@@ -8,11 +8,11 @@ function sendReportToSlack() {
       let sheetName = "通知情報";
       let startRow = 1;
       let lastRow = getLastDataRow4(spreadsheetId, sheetName);
-      
+
       let sheet = SpreadsheetApp.openById(spreadsheetId).getSheetByName(sheetName);
       let range = sheet.getRange("A" + startRow + ":X" + lastRow);
       let values = range.getValues();
-      
+
       for (let i = 0; i < values.length; i++) {
         let row = values[i];
         let reportStatus = row[0];
@@ -20,7 +20,7 @@ function sendReportToSlack() {
         let madeTourStatus = row[21];
         let classification = row[2];
         let sColumnValue = row[19];
-        
+
          // 物件名の参照（空白でない方を使用）
         let propertyName = row[8] !== "" ? row[8] : row[11];
 
@@ -30,11 +30,11 @@ function sendReportToSlack() {
         // 入力日時のフォーマット変更
         let entryTime = formatDateTime(row[1]);
 
-        
+
         if (reportStatus !== "" && rColumnValue !== "済み" && madeTourStatus == "ok") {
           let user1 = "<!subteam^SM53BKPR8>";
           let user2 = "<!subteam^S05NVPXMSNP>";
-          
+
           let color;
 
           // 特定の分類に対する色の設定
@@ -246,20 +246,18 @@ function sendReportToSlack() {
 }
 
 function sendToSlack4(message) {
-  let webhookUrl = "https://hooks.slack.com/services/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"; // あなたのSlackのWebhook URLに置き換えてください
+  let webhookUrl = "https://hooks.slack.com/services/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"; // あなたのSlackのWebhook URLに置き換えてください
 
   let payload = JSON.stringify(message);
- 
+
   let options = {
     "method": "post",
     "contentType": "application/json",
-    "payload": payload,
+    "payload": payload
   };
 
-  let response = UrlFetchApp.fetch(webhookUrl, options);
-  Logger.log("Slack API Response: " + response.getContentText()); // レスポンスをログに出力
+  UrlFetchApp.fetch(webhookUrl, options);
 }
-
 
 function changeError() {
   const sheetId = "1ExSiRfy4df9yJafRvrMRdKFPw8vmUUzvJlpdSQHtdrQ";
@@ -283,13 +281,13 @@ function getLastDataRow4(spreadsheetId, sheetName) {
   let lastRow = sheet.getLastRow();
   let range = sheet.getRange("A1:A" + lastRow);
   let values = range.getValues();
-  
+
   for (let i = values.length - 1; i >= 0; i--) {
     if (values[i][0] !== "") {
       return i + 1;
     }
   }
-  
+
   return lastRow;
 }
 

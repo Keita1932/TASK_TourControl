@@ -1,13 +1,4 @@
 function extractTodayData() {
-  // 排他ロックを取得
-  const lock = LockService.getScriptLock();
-  const lockAcquired = lock.tryLock(30000); // 最大30秒間ロックを取得しようとする
-
-  if (!lockAcquired) {
-    Logger.log('他のプロセスが実行中のため、この関数は終了します。');
-    return; // 他の関数が実行中の場合は処理を中止
-  }
-
   try {
     // スプレッドシートIDとシート名
     const sourceSpreadsheetId = '1RzSScYg7WuJ8NHvc5k71H5djXN4y_0DV597-IfnF2sw';
@@ -64,8 +55,5 @@ function extractTodayData() {
   
   } catch (e) {
     Logger.log('Error: ' + e.message);
-  } finally {
-    // ロックを解除
-    lock.releaseLock();
   }
 }
