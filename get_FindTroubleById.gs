@@ -10,7 +10,7 @@ function findTroubleById() {
   const cleaningTroubleInfoSheet = ss.getSheetByName("cleaningTroubleInfo");
 
   // I列のtroubleIdとY列のステータスを全て取得
-  let troubleIdRange = troubleFormSheet.getRange(3, 9, troubleFormSheet.getLastRow() - 2, 1).getValues().flat();  // I列 (troubleId)
+  let troubleIdRange = troubleFormSheet.getRange(3, 5, troubleFormSheet.getLastRow() - 2, 1).getValues().flat();  // E列 (troubleId)
   let statusRange = troubleFormSheet.getRange(3, 25, troubleFormSheet.getLastRow() - 2, 1).getValues().flat();    // Y列 (ステータス)
 
   // "済み" ではない行のtroubleIdをフィルタリング

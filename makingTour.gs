@@ -53,13 +53,13 @@ function makingTour() {
         const handoverid = requestValues[i][1];
 
         let note = "【解決してほしい人】\n" +
-          (requestValues[i][11] ? requestValues[i][11].replace(/\n/g, " ") : "") + "\n" +
-          "【トラブルの内容】\n" +
-          (requestValues[i][10] ? requestValues[i][10].replace(/\n/g, " ") : "") + "\n" +
-          "【やってほしいこと】\n" +
-          (requestValues[i][9] ? requestValues[i][9].replace(/\n/g, " ") : "") + "\n" +
-          "【フォームID】\n" +
-          submissionId;
+  (typeof requestValues[i][11] === 'string' ? requestValues[i][11].replace(/\n/g, " ") : "") + "\n" +
+  "【トラブルの内容】\n" +
+  (typeof requestValues[i][10] === 'string' ? requestValues[i][10].replace(/\n/g, " ") : "") + "\n" +
+  "【やってほしいこと】\n" +
+  (typeof requestValues[i][9] === 'string' ? requestValues[i][9].replace(/\n/g, " ") : "") + "\n" +
+  "【フォームID】\n" +
+  submissionId;
 
         if (handoverid) {
           note += "\n【このツアーは引き継ぎタスクです。 前回のフォームID】\n" + handoverid;
