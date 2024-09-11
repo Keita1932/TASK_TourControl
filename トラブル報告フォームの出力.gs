@@ -1,3 +1,5 @@
+//rowからnotificationにデータを移す関数
+
 function extractTodayData() {
   try {
     // スプレッドシートIDとシート名

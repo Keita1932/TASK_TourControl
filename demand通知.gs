@@ -251,7 +251,7 @@ function sendReportToSlack() {
 }
 
 function sendToSlack4(message) {
-  let webhookUrl = "https://hooks.slack.com/services/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"; // あなたのSlackのWebhook URLに置き換えてください
+  let webhookUrl = "https://hooks.slack.com/services/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"; // あなたのSlackのWebhook URLに置き換えてください
 
   let payload = JSON.stringify(message);
 
