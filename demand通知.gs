@@ -251,7 +251,7 @@ function sendReportToSlack() {
 }
 
 function sendToSlack4(message) {
-  let webhookUrl = "https://hooks.slack.com/services/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"; // あなたのSlackのWebhook URLに置き換えてください
+  let webhookUrl = "https://hooks.slack.com/services/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"; // あなたのSlackのWebhook URLに置き換えてください
 
   let payload = JSON.stringify(message);
 
@@ -263,6 +263,40 @@ function sendToSlack4(message) {
 
   UrlFetchApp.fetch(webhookUrl, options);
 }
+
+function changeError() {
+  const sheetId = "1ExSiRfy4df9yJafRvrMRdKFPw8vmUUzvJlpdSQHtdrQ";
+  const ss = SpreadsheetApp.openById(sheetId);
+  const operationSheet = ss.getSheetByName("ツアー作成用");
+
+  // R列のデータを取得
+  const lastRow = getLastNonEmptyRowByColumn(operationSheet, 18); // R列を基準に最終行を取得
+  const statusColumn = operationSheet.getRange(2, 18, lastRow - 1).getValues(); // データ範囲取得
+
+  for (let i = 0; i < statusColumn.length; i++) {
+    if (statusColumn[i][0] === 'error') {
+      Logger.log('行 ' + (i + 2) + ' のステータスを "error" から "ok" に変更します');
+      operationSheet.getRange(i + 2, 18).setValue('ok');
+    }
+  }
+}
+
+function getLastDataRow4(spreadsheetId, sheetName) {
+  let sheet = SpreadsheetApp.openById(spreadsheetId).getSheetByName(sheetName);
+  let lastRow = sheet.getLastRow();
+  let range = sheet.getRange("A1:A" + lastRow);
+  let values = range.getValues();
+
+  for (let i = values.length - 1; i >= 0; i--) {
+    if (values[i][0] !== "") {
+      return i + 1;
+    }
+  }
+
+  return lastRow;
+}
+
+
 
 function changeError() {
   const sheetId = "1ExSiRfy4df9yJafRvrMRdKFPw8vmUUzvJlpdSQHtdrQ";
